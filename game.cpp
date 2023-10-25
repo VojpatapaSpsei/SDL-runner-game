@@ -1,5 +1,9 @@
 #include "game.h"
+#include "texturemanager.h"
 
+SDL_Renderer * Game::renderer = NULL;
+SDL_Texture * image;
+SDL_Texture * text;
 
 Game::Game()
 {
@@ -38,6 +42,9 @@ Game::Game()
     window = SDL_CreateWindow("Runner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
+
+    image = loadtexture("image.png");
+    text = loadtext("font.ttf", "test", 255, 0, 0, 255, 1000);
 }
 
 void Game::handleEvents()
@@ -76,9 +83,12 @@ void Game::render_welcome()
 {
     SDL_RenderClear(renderer);
 
-
+    SDL_RenderCopy(renderer,image, NULL, NULL);
+    SDL_RenderCopy(renderer,text, NULL, NULL);
 
     SDL_RenderPresent(renderer);
+
+    printf(".");
 }
 
 void Game::render_game()
