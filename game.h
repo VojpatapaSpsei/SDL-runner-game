@@ -8,7 +8,7 @@
 class Game
 {
 public:
-    Game();
+    Game(const char * nazev_okna, int widht, int height);
     ~Game();
     void handleEvents();
     void update_welcome();
@@ -51,6 +51,8 @@ public:
     static bool leftclick;
     static bool scrolldown;
     static bool scrollup;
+
+    static const Uint8 * keyboardstate;
 
 
 private:

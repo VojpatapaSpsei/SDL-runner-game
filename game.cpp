@@ -18,11 +18,13 @@ bool Game::leftclick;
 bool Game::scrollup;
 bool Game::scrolldown;
 
+const Uint8 * Game::keyboardstate;
+
 SDL_Renderer * Game::renderer = NULL;
 SDL_Texture * image;
 SDL_Texture * text;
 
-Game::Game()
+Game::Game(const char * nazev_okna, int widht, int height)
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
@@ -56,12 +58,14 @@ Game::Game()
     running = true;
     state = welcome;
 
-    window = SDL_CreateWindow("Runner", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
 
+    keyboardstate = SDL_GetKeyboardState(nullptr);
+
     image = loadtexture("image.png");
-    text = loadtext("font.ttf", "test", 255, 0, 0, 255, 1000);
+    text = loadtext("font.ttf", "testing text", 255, 0, 0, 255, 50);
 }
 
 void Game::handleEvents()
@@ -70,8 +74,6 @@ void Game::handleEvents()
     scrollup = false;
     rightclick = false;
     leftclick = false;
-
-    const Uint8 * keyboardstate = SDL_GetKeyboardState(nullptr);
 
     arrowup = keyboardstate[SDL_SCANCODE_UP];
     space = keyboardstate[SDL_SCANCODE_SPACE];
@@ -132,20 +134,25 @@ void Game::handleEvents()
     }
 }
 
-void Game::update_welcome() {
-    if (arrowup == true || space == true || w == true) {
+void Game::update_welcome()
+{
+    if (arrowup == true || space == true || w == true)
+    {
         printf("Skacu ! \n");
     }
 
-    if (arrowdown == true || s == true) {
+    if (arrowdown == true || s == true)
+    {
         printf("kricim se ! \n");
     }
 
-    if (arrowleft == true || a == true) {
+    if (arrowleft == true || a == true)
+    {
         printf("jdu vlevo ! \n");
     }
 
-    if (arrowright == true || d == true) {
+    if (arrowright == true || d == true)
+    {
         printf("jdu vpravo ! \n");
     }
     if (enter == true)
