@@ -47,6 +47,11 @@ public:
     static bool esc;
     static bool backspace;
 
+    static bool rightclick;
+    static bool leftclick;
+    static bool scrolldown;
+    static bool scrollup;
+
 
 private:
     SDL_Window * window;

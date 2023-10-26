@@ -13,6 +13,10 @@ bool Game::d;
 bool Game::enter;
 bool Game::backspace;
 bool Game::esc;
+bool Game::rightclick;
+bool Game::leftclick;
+bool Game::scrollup;
+bool Game::scrolldown;
 
 SDL_Renderer * Game::renderer = NULL;
 SDL_Texture * image;
@@ -62,6 +66,9 @@ Game::Game()
 
 void Game::handleEvents()
 {
+    scrolldown = false;
+    scrollup = false;
+
     const Uint8 * keyboardstate = SDL_GetKeyboardState(nullptr);
 
     arrowup = keyboardstate[SDL_SCANCODE_UP];
@@ -86,6 +93,39 @@ void Game::handleEvents()
         if(event.type==SDL_QUIT)
         {
             running = false;
+        }
+        else if(event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if(event.button.button == SDL_BUTTON_LEFT)
+            {
+                leftclick = true;
+            }
+            else if(event.button.button == SDL_BUTTON_RIGHT)
+            {
+                rightclick = true;
+            }
+        }
+        else if(event.type == SDL_MOUSEBUTTONUP)
+        {
+            if(event.button.button == SDL_BUTTON_LEFT)
+            {
+                leftclick = false;
+            }
+            else if(event.button.button == SDL_BUTTON_RIGHT)
+            {
+                rightclick = false;
+            }
+        }
+        else if(event.type == SDL_MOUSEWHEEL)
+        {
+            if(event.wheel.y > 0)
+            {
+                scrollup = true;
+            }
+            else if(event.wheel.y < 0)
+            {
+                scrolldown = true;
+            }
         }
     }
 }
@@ -117,6 +157,22 @@ void Game::update_welcome() {
     if(esc == true)
     {
         printf("escapuju ! \n");
+    }
+    if(scrollup == true)
+    {
+        printf("scroluju nahoru ! \n");
+    }
+    if(scrolldown == true)
+    {
+        printf("scrolluju dolu ! \n");
+    }
+    if(rightclick == true)
+    {
+        printf("rajt klikuju ! \n");
+    }
+    if(leftclick == true)
+    {
+        printf("left klikuju ! \n");
     }
 }
 
