@@ -1,6 +1,19 @@
 #include "game.h"
 #include "texturemanager.h"
 
+bool Game::arrowup;
+bool Game::space;
+bool Game::w;
+bool Game::arrowdown;
+bool Game::s;
+bool Game::arrowleft;
+bool Game::a;
+bool Game::arrowright;
+bool Game::d;
+bool Game::enter;
+bool Game::backspace;
+bool Game::esc;
+
 SDL_Renderer * Game::renderer = NULL;
 SDL_Texture * image;
 SDL_Texture * text;
@@ -49,6 +62,25 @@ Game::Game()
 
 void Game::handleEvents()
 {
+    const Uint8 * keyboardstate = SDL_GetKeyboardState(nullptr);
+
+    arrowup = keyboardstate[SDL_SCANCODE_UP];
+    space = keyboardstate[SDL_SCANCODE_SPACE];
+    w = keyboardstate[SDL_SCANCODE_W];
+
+    arrowdown = keyboardstate[SDL_SCANCODE_DOWN];
+    s = keyboardstate[SDL_SCANCODE_S];
+
+    arrowleft = keyboardstate[SDL_SCANCODE_LEFT];
+    a = keyboardstate[SDL_SCANCODE_A];
+
+    arrowright = keyboardstate[SDL_SCANCODE_RIGHT];
+    d = keyboardstate[SDL_SCANCODE_D];
+
+    enter = keyboardstate[SDL_SCANCODE_RETURN];
+    backspace = keyboardstate[SDL_SCANCODE_BACKSPACE];
+    esc = keyboardstate[SDL_SCANCODE_ESCAPE];
+
     while(SDL_PollEvent(&event))
     {
         if(event.type==SDL_QUIT)
@@ -58,9 +90,34 @@ void Game::handleEvents()
     }
 }
 
-void Game::update_welcome()
-{
+void Game::update_welcome() {
+    if (arrowup == true || space == true || w == true) {
+        printf("Skacu ! \n");
+    }
 
+    if (arrowdown == true || s == true) {
+        printf("kricim se ! \n");
+    }
+
+    if (arrowleft == true || a == true) {
+        printf("jdu vlevo ! \n");
+    }
+
+    if (arrowright == true || d == true) {
+        printf("jdu vpravo ! \n");
+    }
+    if (enter == true)
+    {
+        printf("enteruju ! \n");
+    }
+    if(backspace == true)
+    {
+        printf("mazu ! \n");
+    }
+    if(esc == true)
+    {
+        printf("escapuju ! \n");
+    }
 }
 
 void Game::update_game()
@@ -88,7 +145,6 @@ void Game::render_welcome()
 
     SDL_RenderPresent(renderer);
 
-    printf(".");
 }
 
 void Game::render_game()

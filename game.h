@@ -29,6 +29,25 @@ public:
     }STATES;
 
     STATES state;
+
+    static bool arrowup;
+    static bool space;
+    static bool w;
+
+    static bool arrowdown;
+    static bool s;
+
+    static bool arrowleft;
+    static bool a;
+
+    static bool arrowright;
+    static bool d;
+
+    static bool enter;
+    static bool esc;
+    static bool backspace;
+
+
 private:
     SDL_Window * window;
     SDL_Event event;
