@@ -54,9 +54,12 @@ public:
 
     static const Uint8 * keyboardstate;
 
+    static SDL_Point mouse;
+
 
 private:
     SDL_Window * window;
     SDL_Event event;
     bool running;
+    int mx, my;
 };

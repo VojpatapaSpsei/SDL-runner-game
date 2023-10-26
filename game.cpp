@@ -20,6 +20,8 @@ bool Game::scrolldown;
 
 const Uint8 * Game::keyboardstate;
 
+SDL_Point Game::mouse;
+
 SDL_Renderer * Game::renderer = NULL;
 SDL_Texture * image;
 SDL_Texture * text;
@@ -70,6 +72,8 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
 void Game::handleEvents()
 {
+    SDL_GetMouseState(&mx,&my);
+
     scrolldown = false;
     scrollup = false;
     rightclick = false;
@@ -183,6 +187,9 @@ void Game::update_welcome()
     {
         printf("left klikuju ! \n");
     }
+
+    printf("pozice mysi : x=%d y=%d \n",mx,my);
+
 }
 
 void Game::update_game()
