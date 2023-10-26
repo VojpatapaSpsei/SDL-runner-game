@@ -21,7 +21,7 @@ public:
     void render_end();
     bool runnin();
 
-    SDL_Renderer * renderer;
+    static SDL_Renderer * renderer;
 
     typedef enum
     {
