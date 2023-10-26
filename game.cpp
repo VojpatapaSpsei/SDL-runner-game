@@ -25,6 +25,7 @@ SDL_Point Game::mouse;
 SDL_Renderer * Game::renderer = NULL;
 SDL_Texture * image;
 SDL_Texture * text;
+SDL_Rect dst;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -60,14 +61,20 @@ Game::Game(const char * nazev_okna, int widht, int height)
     running = true;
     state = welcome;
 
-    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
+    SDL_RenderSetLogicalSize(renderer, widht, height);
 
     keyboardstate = SDL_GetKeyboardState(nullptr);
 
     image = loadtexture("image.png");
-    text = loadtext("font.ttf", "testing text", 255, 0, 0, 255, 50);
+    text = loadtext("font.ttf", "testing text", 255, 0, 0, 255, 100);
+
+    dst.h=500;
+    dst.w=500;
+    dst.x=widht/2-0.5*dst.w;
+    dst.y=height/2-0.5*dst.h;
 }
 
 void Game::handleEvents()
@@ -213,7 +220,7 @@ void Game::render_welcome()
     SDL_RenderClear(renderer);
 
     SDL_RenderCopy(renderer,image, NULL, NULL);
-    SDL_RenderCopy(renderer,text, NULL, NULL);
+    SDL_RenderCopy(renderer,text, NULL, &dst);
 
     SDL_RenderPresent(renderer);
 
