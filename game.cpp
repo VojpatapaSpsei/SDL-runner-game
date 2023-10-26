@@ -68,6 +68,8 @@ void Game::handleEvents()
 {
     scrolldown = false;
     scrollup = false;
+    rightclick = false;
+    leftclick = false;
 
     const Uint8 * keyboardstate = SDL_GetKeyboardState(nullptr);
 
