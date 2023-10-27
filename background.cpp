@@ -17,10 +17,21 @@ void Background::update(float speed)
 {
     Speed = speed;
     Xpos -= Speed;
-    if(Xpos<=-dst.w)
+    if(Speed>0)
     {
-        Xpos = 0;
+        if (Xpos <= -dst.w)
+        {
+            Xpos = 0;
+        }
     }
+    else if(Speed<0)
+    {
+        if(Xpos>=0)
+        {
+            Xpos = -dst.w;
+        }
+    }
+
     dst.x = Xpos;
 }
 
