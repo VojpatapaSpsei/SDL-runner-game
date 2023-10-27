@@ -53,13 +53,16 @@ public:
     static bool scrollup;
 
     static const Uint8 * keyboardstate;
-
-    static SDL_Point mouse;
+    static SDL_Rect mouse;
 
 
 private:
     SDL_Window * window;
     SDL_Event event;
     bool running;
-    int mx, my;
+
+    int screenwidht;
+    int screenheight;
+    float scaleX;
+    float scaleY;
 };

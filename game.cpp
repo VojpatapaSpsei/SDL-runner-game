@@ -1,5 +1,6 @@
 #include "game.h"
 #include "texturemanager.h"
+#include "buttons.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -19,13 +20,11 @@ bool Game::scrollup;
 bool Game::scrolldown;
 
 const Uint8 * Game::keyboardstate;
-
-SDL_Point Game::mouse;
-
+SDL_Rect Game::mouse;
 SDL_Renderer * Game::renderer = NULL;
-SDL_Texture * image;
-SDL_Texture * text;
-SDL_Rect dst;
+
+Buttons * cross;
+Buttons * xit;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -66,20 +65,24 @@ Game::Game(const char * nazev_okna, int widht, int height)
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
     SDL_RenderSetLogicalSize(renderer, widht, height);
 
+    SDL_GetWindowSize(window, &screenwidht, &screenheight);
+    scaleX= (float)screenwidht / (float)widht;
+    scaleY = (float)screenheight / (float)height;
+
     keyboardstate = SDL_GetKeyboardState(nullptr);
+    mouse.w=1;
+    mouse.h=1;
 
-    image = loadtexture("image.png");
-    text = loadtext("font.ttf", "testing text", 255, 0, 0, 255, 100);
+    cross = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-300/2,height/2-250/2);
+    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 300, 250, 0, 0);
 
-    dst.h=500;
-    dst.w=500;
-    dst.x=widht/2-0.5*dst.w;
-    dst.y=height/2-0.5*dst.h;
 }
 
 void Game::handleEvents()
 {
-    SDL_GetMouseState(&mx,&my);
+    SDL_GetMouseState(&mouse.x,&mouse.y);
+    mouse.x = mouse.x / scaleX;
+    mouse.y = mouse.y / scaleY;
 
     scrolldown = false;
     scrollup = false;
@@ -195,7 +198,18 @@ void Game::update_welcome()
         printf("left klikuju ! \n");
     }
 
-    printf("pozice mysi : x=%d y=%d \n",mx,my);
+    cross->update();
+    xit->update();
+
+    if(cross->isclicked)
+    {
+        state = game;
+    }
+    if(xit->isclicked)
+    {
+        running = false;
+    }
+
 
 }
 
@@ -219,8 +233,8 @@ void Game::render_welcome()
 {
     SDL_RenderClear(renderer);
 
-    SDL_RenderCopy(renderer,image, NULL, NULL);
-    SDL_RenderCopy(renderer,text, NULL, &dst);
+    cross->render();
+    xit->render();
 
     SDL_RenderPresent(renderer);
 
