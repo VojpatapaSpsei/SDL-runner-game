@@ -1,6 +1,7 @@
 #include "game.h"
 #include "texturemanager.h"
 #include "buttons.h"
+#include "background.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -23,8 +24,9 @@ const Uint8 * Game::keyboardstate;
 SDL_Rect Game::mouse;
 SDL_Renderer * Game::renderer = NULL;
 
-Buttons * cross;
+Buttons * play;
 Buttons * xit;
+Background * road;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -62,7 +64,7 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50);
     SDL_RenderSetLogicalSize(renderer, widht, height);
 
     SDL_GetWindowSize(window, &screenwidht, &screenheight);
@@ -73,8 +75,10 @@ Game::Game(const char * nazev_okna, int widht, int height)
     mouse.w=1;
     mouse.h=1;
 
-    cross = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-300/2,height/2-250/2);
-    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 300, 250, 0, 0);
+    play = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-300/2,height/2-250/2);
+    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 400, 150, 5, 5);
+
+    road = new Background("images/background/celek.png",3600, height, 0);
 
 }
 
@@ -148,6 +152,9 @@ void Game::handleEvents()
     }
 }
 
+float x=0;
+float speed;
+
 void Game::update_welcome()
 {
     if (arrowup == true || space == true || w == true)
@@ -198,10 +205,14 @@ void Game::update_welcome()
         printf("left klikuju ! \n");
     }
 
-    cross->update();
+    x=x+0.2;
+    speed = 20*sin(0.1*x)+1;
+
+    road->update(speed);
+    play->update();
     xit->update();
 
-    if(cross->isclicked)
+    if(play->isclicked)
     {
         state = game;
     }
@@ -215,7 +226,11 @@ void Game::update_welcome()
 
 void Game::update_game()
 {
-
+    xit->update();
+    if(xit->isclicked)
+    {
+        running = false;
+    }
 }
 
 void Game::update_settings()
@@ -233,7 +248,8 @@ void Game::render_welcome()
 {
     SDL_RenderClear(renderer);
 
-    cross->render();
+    road->render();
+    play->render();
     xit->render();
 
     SDL_RenderPresent(renderer);
@@ -244,7 +260,7 @@ void Game::render_game()
 {
     SDL_RenderClear(renderer);
 
-
+    xit->render();
 
     SDL_RenderPresent(renderer);
 }
