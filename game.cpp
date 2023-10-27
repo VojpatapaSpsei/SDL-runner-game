@@ -1,5 +1,6 @@
 #include "game.h"
 #include "texturemanager.h"
+#include "buttons.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -19,10 +20,11 @@ bool Game::scrollup;
 bool Game::scrolldown;
 
 const Uint8 * Game::keyboardstate;
-
+SDL_Rect Game::mouse;
 SDL_Renderer * Game::renderer = NULL;
-SDL_Texture * image;
-SDL_Texture * text;
+
+Buttons * cross;
+Buttons * xit;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -58,18 +60,30 @@ Game::Game(const char * nazev_okna, int widht, int height)
     running = true;
     state = welcome;
 
-    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 50);
+    SDL_RenderSetLogicalSize(renderer, widht, height);
+
+    SDL_GetWindowSize(window, &screenwidht, &screenheight);
+    scaleX= (float)screenwidht / (float)widht;
+    scaleY = (float)screenheight / (float)height;
 
     keyboardstate = SDL_GetKeyboardState(nullptr);
+    mouse.w=1;
+    mouse.h=1;
 
-    image = loadtexture("image.png");
-    text = loadtext("font.ttf", "testing text", 255, 0, 0, 255, 50);
+    cross = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-300/2,height/2-250/2);
+    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 300, 250, 0, 0);
+
 }
 
 void Game::handleEvents()
 {
+    SDL_GetMouseState(&mouse.x,&mouse.y);
+    mouse.x = mouse.x / scaleX;
+    mouse.y = mouse.y / scaleY;
+
     scrolldown = false;
     scrollup = false;
     rightclick = false;
@@ -183,6 +197,20 @@ void Game::update_welcome()
     {
         printf("left klikuju ! \n");
     }
+
+    cross->update();
+    xit->update();
+
+    if(cross->isclicked)
+    {
+        state = game;
+    }
+    if(xit->isclicked)
+    {
+        running = false;
+    }
+
+
 }
 
 void Game::update_game()
@@ -205,8 +233,8 @@ void Game::render_welcome()
 {
     SDL_RenderClear(renderer);
 
-    SDL_RenderCopy(renderer,image, NULL, NULL);
-    SDL_RenderCopy(renderer,text, NULL, NULL);
+    cross->render();
+    xit->render();
 
     SDL_RenderPresent(renderer);
 
