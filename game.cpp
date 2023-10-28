@@ -2,6 +2,7 @@
 #include "texturemanager.h"
 #include "buttons.h"
 #include "background.h"
+#include "object.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -26,7 +27,10 @@ SDL_Renderer * Game::renderer = NULL;
 
 Buttons * play;
 Buttons * xit;
+Buttons * setting;
+
 Background * road;
+Object * logo;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -75,10 +79,13 @@ Game::Game(const char * nazev_okna, int widht, int height)
     mouse.w=1;
     mouse.h=1;
 
-    play = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-300/2,height/2-250/2);
-    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 400, 150, 5, 5);
+    play = new Buttons("images/buttons/play/play.png",800,275,300,250,widht/2-1300/2,375);
+    xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 300, 250, widht/2-1300/2+50+300, 375);
+    setting = new Buttons("images/buttons/settings/settings.png", 1600, 275, 600, 250, widht/2-1300/2+50+300+50+300, 375);
 
     road = new Background("images/background/celek.png",3600, height, 0);
+
+    logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
 }
 
@@ -206,11 +213,15 @@ void Game::update_welcome()
     }
 
     x=x+0.2;
-    speed = 20*sin(0.1*x)+1;
+    speed = 40*sin(0.2*x)+45;
 
     road->update(speed);
+
     play->update();
     xit->update();
+    setting->update();
+
+    logo->update();
 
     if(play->isclicked)
     {
@@ -249,8 +260,12 @@ void Game::render_welcome()
     SDL_RenderClear(renderer);
 
     road->render();
+
     play->render();
     xit->render();
+    setting->render();
+
+    logo->render();
 
     SDL_RenderPresent(renderer);
 
