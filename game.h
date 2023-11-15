@@ -67,4 +67,6 @@ private:
     int screenheight;
     float scaleX;
     float scaleY;
+
+    float x;
 };
