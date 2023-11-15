@@ -87,6 +87,8 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
+    x = 0;
+
 }
 
 void Game::handleEvents()
@@ -159,9 +161,6 @@ void Game::handleEvents()
     }
 }
 
-float x=0;
-float speed;
-
 void Game::update_welcome()
 {
     if (arrowup == true || space == true || w == true)
@@ -213,9 +212,7 @@ void Game::update_welcome()
     }
 
     x=x+0.2;
-    speed = 40*sin(0.2*x)+45;
-
-    road->update(speed);
+    road->update(40*sin(0.2*x)+25);
 
     play->update();
     xit->update();
@@ -231,8 +228,6 @@ void Game::update_welcome()
     {
         running = false;
     }
-
-
 }
 
 void Game::update_game()
@@ -242,6 +237,8 @@ void Game::update_game()
     {
         running = false;
     }
+
+    road->update(10);
 }
 
 void Game::update_settings()
@@ -275,6 +272,7 @@ void Game::render_game()
 {
     SDL_RenderClear(renderer);
 
+    road->render();
     xit->render();
 
     SDL_RenderPresent(renderer);
