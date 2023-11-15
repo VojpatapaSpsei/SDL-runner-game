@@ -29,7 +29,15 @@ Buttons * play;
 Buttons * xit;
 Buttons * setting;
 
+Background * sky;
+Background * clouds;
+Background * mountains;
+Background * scoops;
+Background * cactuses;
 Background * road;
+
+
+
 Object * logo;
 
 Game::Game(const char * nazev_okna, int widht, int height)
@@ -83,7 +91,12 @@ Game::Game(const char * nazev_okna, int widht, int height)
     xit = new Buttons("images/buttons/exit/exit.png", 800, 275, 300, 250, widht/2-1300/2+50+300, 375);
     setting = new Buttons("images/buttons/settings/settings.png", 1600, 275, 600, 250, widht/2-1300/2+50+300+50+300, 375);
 
-    road = new Background("images/background/celek.png",3600, height, 0);
+    sky = new Background("images/background/obloha.png",3600, height, 0);
+    clouds = new Background("images/background/mraky.png", 3600, height, 0);
+    mountains = new Background("images/background/hory.png", 3600, height, 0);
+    scoops = new Background("images/background/kopecky.png", 3600, height, 0);
+    cactuses = new Background("images/background/kaktusy.png", 3600, height, 0);
+    road = new Background("images/background/cesta.png", 3600, height, 0);
 
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
@@ -212,7 +225,12 @@ void Game::update_welcome()
     }
 
     x=x+0.2;
-    road->update(40*sin(0.2*x)+25);
+    sky->update(9*sin(0.1*x)+9.1);
+    clouds->update((9*sin(0.05*x)+9.1)*3);
+    mountains->update((9*sin(0.05*x)+9.1)*6);
+    scoops->update((9*sin(0.05*x)+9.1)*9);
+    cactuses->update((9*sin(0.05*x)+9.1)*12);
+    road->update((9*sin(0.05*x)+9.1)*15);
 
     play->update();
     xit->update();
@@ -238,7 +256,6 @@ void Game::update_game()
         running = false;
     }
 
-    road->update(10);
 }
 
 void Game::update_settings()
@@ -256,6 +273,11 @@ void Game::render_welcome()
 {
     SDL_RenderClear(renderer);
 
+    sky->render();
+    clouds->render();
+    mountains->render();
+    scoops->render();
+    cactuses->render();
     road->render();
 
     play->render();
@@ -272,7 +294,6 @@ void Game::render_game()
 {
     SDL_RenderClear(renderer);
 
-    road->render();
     xit->render();
 
     SDL_RenderPresent(renderer);
