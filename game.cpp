@@ -38,7 +38,7 @@ Background * road;
 
 Object * logo;
 
-
+Mix_Music * welcome_screen_theme;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -101,6 +101,11 @@ Game::Game(const char * nazev_okna, int widht, int height)
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
     x = 0;
+
+    volume = 40;
+    welcome_screen_theme = Mix_LoadMUS("sounds/welcome_screen_theme.wav");
+    Mix_VolumeMusic(volume);
+    Mix_PlayMusic(welcome_screen_theme, -1);
 
 }
 
