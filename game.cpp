@@ -36,9 +36,9 @@ Background * scoops;
 Background * cactuses;
 Background * road;
 
-
-
 Object * logo;
+
+Mix_Music * welcome_screen_theme;
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -101,6 +101,11 @@ Game::Game(const char * nazev_okna, int widht, int height)
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
     x = 0;
+
+    volume = 40;
+    welcome_screen_theme = Mix_LoadMUS("sounds/welcome_screen_theme.wav");
+    Mix_VolumeMusic(volume);
+    Mix_PlayMusic(welcome_screen_theme, -1);
 
 }
 
@@ -225,12 +230,12 @@ void Game::update_welcome()
     }
 
     x=x+0.2;
-    sky->update(9*sin(0.1*x)+9.1);
-    clouds->update((9*sin(0.05*x)+9.1)*3);
-    mountains->update((9*sin(0.05*x)+9.1)*6);
-    scoops->update((9*sin(0.05*x)+9.1)*9);
-    cactuses->update((9*sin(0.05*x)+9.1)*12);
-    road->update((9*sin(0.05*x)+9.1)*15);
+    sky->update((21*sin(0.25*x)+13)/15);
+    clouds->update((21*sin(0.25*x)+13)/12);
+    mountains->update((21*sin(0.25*x)+13)/9);
+    scoops->update((21*sin(0.25*x)+13)/6);
+    cactuses->update((21*sin(0.25*x)+13)/3);
+    road->update((21*sin(0.25*x)+13));
 
     play->update();
     xit->update();

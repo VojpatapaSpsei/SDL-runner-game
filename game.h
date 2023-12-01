@@ -69,4 +69,6 @@ private:
     float scaleY;
 
     float x;
+
+    int volume;
 };
