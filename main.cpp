@@ -2,7 +2,7 @@
 
 Game * game;
 
-int WinMain(int argc, char * argv[])
+int main(int argc, char * argv[])
 {
     game = new Game("Runner", 1440, 810);
 

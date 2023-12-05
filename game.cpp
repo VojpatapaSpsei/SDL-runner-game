@@ -59,14 +59,15 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     if (TTF_Init() == -1)
     {
-        printf("Something went wrong with SDL_ttf init");
+        printf("Something went wrong with SDL_ttf init \n");
         SDL_Delay(5000);
         exit(0);
     }
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
-        printf("Something went wrong with SDL_mixer init");
+        printf("Something went wrong with SDL_mixer init \n");
+        printf("%s \n", Mix_GetError());
         SDL_Delay(5000);
         exit(0);
     }
