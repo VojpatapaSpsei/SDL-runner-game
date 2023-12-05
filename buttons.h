@@ -15,10 +15,10 @@ public:
 
     bool isclicked;
 
-private:
     SDL_Rect dst;
     SDL_Rect src;
 
+private:
     int originalwidht;
     int originalheight;
 

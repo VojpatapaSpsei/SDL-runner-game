@@ -6,6 +6,7 @@
 #include <SDL_mixer.h>
 #include <time.h>
 #include <math.h>
+#include "additional_functions.h"
 
 class Game
 {
@@ -56,7 +57,6 @@ public:
 
     static const Uint8 * keyboardstate;
     static SDL_Rect mouse;
-
 
 private:
     SDL_Window * window;
