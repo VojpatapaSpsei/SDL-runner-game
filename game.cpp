@@ -247,6 +247,13 @@ void Game::update_welcome()
     if(play->isclicked)
     {
         state = game;
+        changeValueLinear(&x, 3000, 0);
+        xit->dst.x = 0;
+        xit->dst.y = 0;
+        xit->dst.w = 10;
+        xit->dst.h = 10;
+
+        Mix_FadeOutMusic(5000);
     }
     if(xit->isclicked)
     {
@@ -256,6 +263,16 @@ void Game::update_welcome()
 
 void Game::update_game()
 {
+    sky->update(x/15);
+    clouds->update(x/12);
+    mountains->update(x/9);
+    scoops->update(x/6);
+    cactuses->update(x/3);
+    road->update(x);
+
+
+    printf("x = %f\n", x);
+
     xit->update();
     if(xit->isclicked)
     {
@@ -299,6 +316,13 @@ void Game::render_welcome()
 void Game::render_game()
 {
     SDL_RenderClear(renderer);
+
+    sky->render();
+    clouds->render();
+    mountains->render();
+    scoops->render();
+    cactuses->render();
+    road->render();
 
     xit->render();
 
