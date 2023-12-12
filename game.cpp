@@ -247,7 +247,7 @@ void Game::update_welcome()
     if(play->isclicked)
     {
         state = game;
-        changeValueLinear(&x, 3000, 0);
+        changeValueLinear(&x, 5000, 0);
         xit->dst.x = 0;
         xit->dst.y = 0;
         xit->dst.w = 10;
@@ -270,14 +270,13 @@ void Game::update_game()
     cactuses->update(x/3);
     road->update(x);
 
-
-    printf("x = %f\n", x);
-
     xit->update();
     if(xit->isclicked)
     {
         running = false;
     }
+
+    x+=1;
 
 }
 
