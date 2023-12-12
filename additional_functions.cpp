@@ -9,23 +9,20 @@ void *changeValueLinear_thread(void *arg)
     float goal = pars->goal_value;
 
     Uint32 startTime = SDL_GetTicks();
-    Uint32 currentTime;
-    float changePerMillisecond = (*value-goal) / (float)duration;
+    Uint32 elapsedTime;
+    float a = (*value-goal) / (float)duration;
 
-    while (duration > 0)
+    while(duration>0)
     {
-        currentTime = SDL_GetTicks();
-        Uint32 elapsed = currentTime - startTime;
-
-        if (elapsed >= duration)
+        SDL_Delay(1);
+        *value = a*duration+goal;
+        elapsedTime = SDL_GetTicks()-startTime;
+        startTime = SDL_GetTicks();
+        duration-=elapsedTime;
+        if(duration<=0)
         {
             *value = goal;
-            break;
         }
-
-        *value -= changePerMillisecond * elapsed;
-        duration -= elapsed;
-        startTime = currentTime;
     }
 
     free(pars);
