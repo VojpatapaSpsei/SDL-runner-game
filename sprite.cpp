@@ -5,10 +5,10 @@
 
 int Sprite::frameCounter;
 
-Sprite::Sprite(const char * path, int original_width, int original_height, int elements_amount, int width, int height, int frame_count, bool activity)
+Sprite::Sprite(const char * path, int original_width, int original_height, int elements_amount, int width, int height, int frame_count, bool activity, int x_pos, int y_pos)
 {
     active = activity;
-    previous_state = activity;
+    previous_state = false;
 
     texture = loadtexture(path);
     src.x=0;
@@ -16,8 +16,8 @@ Sprite::Sprite(const char * path, int original_width, int original_height, int e
     src.w=original_width/elements_amount;
     src.h=original_height;
 
-    dst.x = 300;
-    dst.y = 300;
+    dst.x = x_pos;
+    dst.y = y_pos;
     dst.w=width;
     dst.h=height;
 
@@ -29,10 +29,13 @@ Sprite::Sprite(const char * path, int original_width, int original_height, int e
     frameCounter = 0;
 }
 
-void Sprite::update()
+void Sprite::update(float x_pos, float y_pos)
 {
     if(active)
     {
+        dst.x = x_pos;
+        dst.y = y_pos;
+
         if (frameCounter % frameGoal==0 && frameCounter != 0)
         {
             src.x += original_width_w / elements_amount_w;

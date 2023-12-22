@@ -5,6 +5,7 @@
 #include "object.h"
 #include "additional_functions.h"
 #include "sprite.h"
+#include "player.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -40,7 +41,7 @@ Background * road;
 
 Object * logo;
 
-Sprite * test;
+Player * plr;
 
 Mix_Music * welcome_screen_theme;
 
@@ -105,7 +106,7 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
 
-    test = new Sprite("images/player/kovboj_na_koni_V2-running.png", 1740, 105, 12, 300, 300, 2, true);
+    plr = new Player();
 
     x = 0;
 
@@ -253,7 +254,7 @@ void Game::update_welcome()
     if(play->isclicked)
     {
         state = game;
-        changeValueLinear(&x, 5000, 0);
+        changeValueLinear(&x, 500, 10);
         xit->dst.x = 0;
         xit->dst.y = 0;
         xit->dst.w = 10;
@@ -282,11 +283,12 @@ void Game::update_game()
         running = false;
     }
 
-    x+=1;
+    plr->update();
+
+    x+=0.01;
 
     Sprite::frameCounter++;
 
-    test->update();
 
 }
 
@@ -335,7 +337,7 @@ void Game::render_game()
 
     xit->render();
 
-    test->render();
+    plr->render();
 
     SDL_RenderPresent(renderer);
 }
