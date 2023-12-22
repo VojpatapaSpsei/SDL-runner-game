@@ -3,6 +3,8 @@
 #include "buttons.h"
 #include "background.h"
 #include "object.h"
+#include "additional_functions.h"
+#include "sprite.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -37,6 +39,8 @@ Background * cactuses;
 Background * road;
 
 Object * logo;
+
+Sprite * test;
 
 Mix_Music * welcome_screen_theme;
 
@@ -100,6 +104,8 @@ Game::Game(const char * nazev_okna, int widht, int height)
     road = new Background("images/background/cesta.png", 3600, height, 0);
 
     logo = new Object("images/logos/western_runner/Western_runner-logo.png",1300, 300, widht/2-1300/2, 50);
+
+    test = new Sprite("images/player/kovboj_na_koni_V2-running.png", 1740, 105, 12, 300, 300, 2, true);
 
     x = 0;
 
@@ -278,6 +284,10 @@ void Game::update_game()
 
     x+=1;
 
+    Sprite::frameCounter++;
+
+    test->update();
+
 }
 
 void Game::update_settings()
@@ -324,6 +334,8 @@ void Game::render_game()
     road->render();
 
     xit->render();
+
+    test->render();
 
     SDL_RenderPresent(renderer);
 }
