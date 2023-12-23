@@ -42,7 +42,7 @@ void Player::update()
             y_pos = ground - running_animation->dst.h;
         }
 
-        if(Game::w || Game::space || Game::arrowup)
+        if(Game::w || Game::space || Game::arrowup && !(Game::s || Game::arrowdown))
         {
             velocity = 19;
             running = false;
