@@ -20,4 +20,5 @@ private:
     float y_pos;
 
     float velocity;
+    int ground;
 };
