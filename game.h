@@ -4,11 +4,13 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include <time.h>
+#include <math.h>
 
 class Game
 {
 public:
-    Game();
+    Game(const char * nazev_okna, int widht, int height);
     ~Game();
     void handleEvents();
     void update_welcome();
@@ -29,8 +31,43 @@ public:
     }STATES;
 
     STATES state;
+
+    static bool arrowup;
+    static bool space;
+    static bool w;
+
+    static bool arrowdown;
+    static bool s;
+
+    static bool arrowleft;
+    static bool a;
+
+    static bool arrowright;
+    static bool d;
+
+    static bool enter;
+    static bool esc;
+    static bool backspace;
+
+    static bool rightclick;
+    static bool leftclick;
+    static bool scrolldown;
+    static bool scrollup;
+
+    static const Uint8 * keyboardstate;
+    static SDL_Rect mouse;
+
 private:
     SDL_Window * window;
     SDL_Event event;
     bool running;
+
+    int screenwidht;
+    int screenheight;
+    float scaleX;
+    float scaleY;
+
+    float x;
+
+    int volume;
 };

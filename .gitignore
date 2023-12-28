@@ -33,4 +33,3 @@
 # Things I actually want to ignore
 .idea/
 cmake-build-debug/
-CMakeLists.txt
