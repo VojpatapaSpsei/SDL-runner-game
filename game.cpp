@@ -6,6 +6,7 @@
 #include "additional_functions.h"
 #include "sprite.h"
 #include "player.h"
+#include "text.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -43,7 +44,12 @@ Object * logo;
 
 Player * plr;
 
+Text * max_score;
+
 Mix_Music * welcome_screen_theme;
+
+char high_score_message[70];
+char high_score[11];
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -80,7 +86,7 @@ Game::Game(const char * nazev_okna, int widht, int height)
     running = true;
     state = welcome;
 
-    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    window = SDL_CreateWindow(nazev_okna, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widht, height, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50);
     SDL_RenderSetLogicalSize(renderer, widht, height);
@@ -108,13 +114,16 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     plr = new Player();
 
+    strcpy(high_score_message, "The highest score : ");
+    strcat(high_score_message, "52164");
+    max_score = new Text("fonts/Amatic-Bold.ttf", high_score_message, 1000, 130, widht/2-1000/2, 625, 172, 50, 50, 0, 150);
+
     x = 0;
 
     volume = 40;
     welcome_screen_theme = Mix_LoadMUS("sounds/welcome_screen_theme.wav");
     Mix_VolumeMusic(volume);
     Mix_PlayMusic(welcome_screen_theme, -1);
-
 }
 
 void Game::handleEvents()
@@ -319,6 +328,8 @@ void Game::render_welcome()
     setting->render();
 
     logo->render();
+
+    max_score->render();
 
     SDL_RenderPresent(renderer);
 
