@@ -16,7 +16,7 @@ find_package(SDL2_mixer REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
 
-add_executable(Runner_game main.cpp game.cpp texturemanager.cpp buttons.cpp background.cpp object.cpp additional_functions.cpp)
+add_executable(Runner_game main.cpp game.cpp texturemanager.cpp buttons.cpp background.cpp object.cpp additional_functions.cpp sprite.cpp player.cpp)
 
 # Delete 3 lines bellow if you want no console
 if(WIN32)

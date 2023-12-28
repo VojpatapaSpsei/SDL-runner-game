@@ -6,7 +6,6 @@
 #include <SDL_mixer.h>
 #include <time.h>
 #include <math.h>
-#include "additional_functions.h"
 
 class Game
 {
