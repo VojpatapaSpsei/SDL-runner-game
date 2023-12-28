@@ -36,3 +36,18 @@ SDL_Texture * loadtext(const char * fontpath, const char * text, int r, int g, i
 
     return tex;
 }
+
+void changetext(SDL_Texture ** texture, const char * fontpath, const char * text, int r, int g, int b, int a, int resolution)
+{
+    font = TTF_OpenFont(fontpath, resolution);
+    col.r = r;
+    col.g = g;
+    col.b = b;
+    col.a = a;
+
+    sur = TTF_RenderText_Solid(font, text, col);
+    SDL_DestroyTexture(*texture);
+    *texture = SDL_CreateTextureFromSurface(Game::renderer, sur);
+    TTF_CloseFont(font);
+    SDL_FreeSurface(sur);
+}

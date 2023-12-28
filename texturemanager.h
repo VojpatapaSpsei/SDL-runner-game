@@ -8,3 +8,5 @@
 SDL_Texture * loadtexture(const char * path);
 
 SDL_Texture * loadtext(const char * fontpath, const char * text, int r, int g, int b, int a, int resolution);
+
+void changetext(SDL_Texture ** texture, const char * fontpath, const char * text, int r, int g, int b, int a, int resolution);
