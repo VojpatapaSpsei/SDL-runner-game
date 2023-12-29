@@ -24,6 +24,8 @@ public:
     bool runnin();
 
     static SDL_Renderer * renderer;
+    static int score;
+    static char high_score[90];
 
     typedef enum
     {

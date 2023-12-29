@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "player.h"
 #include "text.h"
+#include "filemanager.h"
 
 bool Game::arrowup;
 bool Game::space;
@@ -27,7 +28,9 @@ bool Game::scrolldown;
 
 const Uint8 * Game::keyboardstate;
 SDL_Rect Game::mouse;
-SDL_Renderer * Game::renderer = NULL;
+SDL_Renderer * Game::renderer = nullptr;
+
+int Game::score;
 
 Buttons * play;
 Buttons * xit;
@@ -48,8 +51,7 @@ Text * max_score;
 
 Mix_Music * welcome_screen_theme;
 
-char high_score_message[70];
-char high_score[11];
+char Game::high_score[90];
 
 Game::Game(const char * nazev_okna, int widht, int height)
 {
@@ -114,9 +116,9 @@ Game::Game(const char * nazev_okna, int widht, int height)
 
     plr = new Player();
 
-    strcpy(high_score_message, "The highest score : ");
-    strcat(high_score_message, "52164");
-    max_score = new Text("fonts/Amatic-Bold.ttf", high_score_message, 1000, 130, widht/2-1000/2, 625, 172, 50, 50, 0, 150);
+    strcpy(high_score, "The highest score : ");
+    readscore();
+    max_score = new Text("fonts/Amatic-Bold.ttf", high_score, 1000, 130, widht/2-1000/2, 625, 172, 50, 50, 0, 150);
 
     x = 0;
 
@@ -269,7 +271,7 @@ void Game::update_welcome()
         xit->dst.w = 10;
         xit->dst.h = 10;
 
-        Mix_FadeOutMusic(5000);
+        Mix_FadeOutMusic(1000);
     }
     if(xit->isclicked)
     {
@@ -294,9 +296,10 @@ void Game::update_game()
 
     plr->update();
 
-    x+=0.01;
+    x+=0.005;
 
     Sprite::frameCounter++;
+    score++;
 
 
 }
